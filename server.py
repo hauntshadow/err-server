@@ -25,14 +25,14 @@ class AutoSysServer(BotPlugin):
         return "Currently targeted server: " + self['target_server']
     
     @botcmd
-    def callback_stream(self, msg, stream):
+    def callback_stream(self, stream, msg):
         self.send(stream.identifier, "File request from :" + str(stream.identifier))
         stream.accept()
         self.send(stream.identifier, "Content:" + str(stream.fsource.read()))
     
     @botcmd
     def get_log(self, msg, args):
-        stream = self.send_stream_request(msg.frm, open(args, 'r'), name='log.txt')
+        stream = BotPlugin.send_stream_request(msg.frm, open(args, 'r'), name='log.txt')
 # Used to run commands in terminal and capture the result in string var.
 #with tempfile.TemporaryFile() as tempf:
 #    proc = subprocess.Popen(['ls','-l'], stdout=tempf)
