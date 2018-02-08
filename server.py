@@ -1,7 +1,7 @@
-from errbot import BotPlugin, botcmd, Stream
+from errbot import BotPlugin, botcmd
 import subprocess, tempfile, re, time
 
-class AutoSysServer(BotPlugin, Stream):
+class AutoSysServer(BotPlugin):
     """AutoSys server plugin for Errbot"""
 
     @botcmd
