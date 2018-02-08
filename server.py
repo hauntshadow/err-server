@@ -25,7 +25,7 @@ class AutoSysServer(BotPlugin):
         return "Currently targeted server: " + self['target_server']
     
     @botcmd
-    def log(self, msg, args):
+    def retrieve_log(self, msg, args):
         stream = BotPlugin.send_stream_request(msg.frm, open(args, 'r'), name='log.txt')
 # Used to run commands in terminal and capture the result in string var.
 #with tempfile.TemporaryFile() as tempf:
