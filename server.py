@@ -25,13 +25,10 @@ class AutoSysServer(BotPlugin):
         return "Currently targeted server: " + self['target_server']
     
     @botcmd
-    def callback_stream(self, stream, msg):
-        print(msg)
-        print(stream)
-        self.send(stream, "File request from :" + stream)
+    def callback_stream(self, stream):
+        self.send(stream.frm, "File request from :" + str(stream.frm))
         stream.accept()
-        return stream
-        #self.send(stream.identifier, "Content:" + str(stream.fsource.read()))
+        self.send(stream.frm, "Content:" + str(stream.fsource.read()))
     
     @botcmd
     def get_log(self, msg, args):
