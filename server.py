@@ -26,7 +26,7 @@ class AutoSysServer(BotPlugin):
     
     @botcmd
     def retrieve(self, msg, args):
-        stream = BotPlugin.send_stream_request(msg.frm, fsource=open(args, 'r'), name='log.txt')
+        stream = BotPlugin.send_stream_request(user=msg.frm, fsource=open(args, 'r'), name='log.txt')
 # Used to run commands in terminal and capture the result in string var.
 #with tempfile.TemporaryFile() as tempf:
 #    proc = subprocess.Popen(['ls','-l'], stdout=tempf)
