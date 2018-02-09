@@ -24,9 +24,13 @@ class AutoSysServer(BotPlugin):
         #    target_server = str(file.read())
         return "Currently targeted server: " + self['target_server']
     
+    
+class FileTransfer(BotPlugin):
+    """Class for transferring files"""
+    
     @botcmd
     def retrieve(self, msg, args):
-        stream = BotPlugin.send_stream_request(self, user=msg.frm, fsource=open(args, 'r'), name='log.txt')
+        stream = self.send_stream_request(user=msg.frm, fsource=open(args, 'r'), name='log.txt')
 # Used to run commands in terminal and capture the result in string var.
 #with tempfile.TemporaryFile() as tempf:
 #    proc = subprocess.Popen(['ls','-l'], stdout=tempf)
