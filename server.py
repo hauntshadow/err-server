@@ -23,11 +23,7 @@ class AutoSysServer(BotPlugin):
         #with open('/var/errbot/target_server', 'r') as file:
         #    target_server = str(file.read())
         return "Currently targeted server: " + self['target_server']
-    
-    
-class FileTransfer(BotPlugin):
-    """Class for transferring files"""
-    
+
     @botcmd
     def retrieve(self, msg, args):
         stream = self.send_stream_request(user=msg.frm, fsource=open(args, 'r'), name='log.txt')
