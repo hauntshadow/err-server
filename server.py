@@ -27,7 +27,9 @@ class AutoSysServer(BotPlugin):
     @botcmd
     def log(self, msg, args):
         """Get the log file from errbot"""
-        stream = self.send_stream_request(user=msg.frm, fsource=open(args, 'r'), name='log.txt')
+        self.send_stream_request(user=msg.frm, fsource=open(args, 'rb'), name='log.txt')
+        return "File found!"
+        
 # Used to run commands in terminal and capture the result in string var.
 #with tempfile.TemporaryFile() as tempf:
 #    proc = subprocess.Popen(['ls','-l'], stdout=tempf)
