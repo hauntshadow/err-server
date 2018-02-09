@@ -25,7 +25,7 @@ class AutoSysServer(BotPlugin):
         return "Currently targeted server: " + self['target_server']
 
     @botcmd
-    def log(self, msg, args):
+    def retrieve(self, msg, args):
         """Get the log file from errbot"""
         self.send_stream_request(user=msg.frm, fsource=open(args, 'rb'), name='log.txt')
         return "File found!"
