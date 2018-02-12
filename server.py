@@ -1,4 +1,4 @@
-from errbot import BotPlugin, botcmd
+from errbot import BotPlugin, botcmd, botmatch
 import subprocess, tempfile, re, time
 
 class AutoSysServer(BotPlugin):
