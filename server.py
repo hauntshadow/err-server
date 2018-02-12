@@ -42,7 +42,7 @@ class AutoSysServer(BotPlugin):
         while answer not in ["y", "n"]:
             self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
             time.sleep(5)
-            answer = input("OK to execute command " + msg.body + " [Y/N]?")
+            answer = input("OK to execute command " + msg.body + " [Y/N]?").strip().lower()
         return answer == "y" 
 # Used to run commands in terminal and capture the result in string var.
 #with tempfile.TemporaryFile() as tempf:
