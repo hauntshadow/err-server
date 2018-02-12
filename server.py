@@ -27,23 +27,28 @@ class AutoSysServer(BotPlugin):
     @botcmd
     def retrieve(self, msg, args):
         """Get the log file from errbot"""
-        if self.confirm(msg):
+        self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
+        
+    @botmatch(r'^[a-zA-Z]$', flow_only=True)
+    def confirm(self, msg, match):
+        guess = match.string.lower()
+        if guess == 'y':
             self.send_stream_request(user=msg.frm, fsource=open(args, 'rb'), name='log.txt')
             return "File found!"
-        else:
-            return "Permission denied!"
-        
-    @botcmd
-    def confirm(self, msg):
-        """Ask user to enter Y or N (case-insensitive).
-        :return: True if the answer is Y.
-        :rtype: bool"""
-        answer = ""
-        while answer not in ["y", "n"]:
-            self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
-            time.sleep(5)
-            answer = input("OK to execute command " + msg.body + " [Y/N]?").strip().lower()
-        return answer == "y" 
+        return "Permission denied!"
+
+from errbot import botflow, FlowRoot, BotFlow, FLOW_END
+
+class GuessFlows(BotFlow):
+    """ Conversation flows related to polls"""
+
+    @botflow
+    def guess(self, flow: FlowRoot):
+        """ This is a flow that can set a guessing game."""
+        # setup Flow
+        game_created = flow.connect('tryme', auto_trigger=True)
+        one_guess = game_created.connect('confirm')
+        one_guess.connect(FLOW_END)
 # Used to run commands in terminal and capture the result in string var.
 #with tempfile.TemporaryFile() as tempf:
 #    proc = subprocess.Popen(['ls','-l'], stdout=tempf)
