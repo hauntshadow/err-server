@@ -27,7 +27,7 @@ class AutoSysServer(BotPlugin):
     @botcmd
     def retrieve(self, msg, args):
         """Get the log file from errbot"""
-        BotPlugin.send_stream_request(user=msg.frm, fsource=open(args, 'rb'), name='log.txt')
+        BotPlugin.self.send_stream_request(user=msg.frm, fsource=open(args, 'rb'), name='log.txt')
         return "File found!"
         
 # Used to run commands in terminal and capture the result in string var.
