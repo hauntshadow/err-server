@@ -28,6 +28,7 @@ class AutoSysServer(BotPlugin):
     def retrieve(self, msg, args):
         """Get the log file from errbot"""
         msg.ctx['tries'] = 10
+        msg.args = args
         self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
         
     @botmatch(r'^[a-zA-Z]$', flow_only=True)
@@ -35,7 +36,7 @@ class AutoSysServer(BotPlugin):
         msg.ctx['tries'] -= 1
         guess = match.string.lower()
         if guess == 'y':
-            self.send_stream_request(user=msg.frm, fsource=open(args, 'rb'), name='log.txt')
+            self.send_stream_request(user=msg.frm, fsource=open(msg.args, 'rb'), name='log.txt')
             return "File found!"
         if guess == 'n' or msg.ctx['tries'] == 0:
             return "Permission denied!"
