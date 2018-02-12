@@ -27,28 +27,33 @@ class AutoSysServer(BotPlugin):
     @botcmd
     def retrieve(self, msg, args):
         """Get the log file from errbot"""
+        msg.ctx['tries'] = 10
         self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
         
     @botmatch(r'^[a-zA-Z]$', flow_only=True)
     def confirm(self, msg, match):
+        msg.ctx['tries'] -= 1
         guess = match.string.lower()
         if guess == 'y':
             self.send_stream_request(user=msg.frm, fsource=open(args, 'rb'), name='log.txt')
             return "File found!"
-        return "Permission denied!"
+        if guess == 'n' or msg.ctx['tries'] == 0:
+            return "Permission denied!"
+        return "Invalid. Please try again."
 
 from errbot import botflow, FlowRoot, BotFlow, FLOW_END
 
-class GuessFlows(BotFlow):
+class ConfFlow(BotFlow):
     """ Conversation flows related to polls"""
 
     @botflow
-    def guess(self, flow: FlowRoot):
+    def conf(self, flow: FlowRoot):
         """ This is a flow that can set a guessing game."""
         # setup Flow
-        game_created = flow.connect('tryme', auto_trigger=True)
-        one_guess = game_created.connect('confirm')
-        one_guess.connect(FLOW_END)
+        dialogue = flow.connect('retrieve', auto_trigger=True)
+        conf = dialogue.connect('confirm')
+        conf.connect('confirm')
+        conf.connect(FLOW_END, predicate=lambda ctx: ctx['tries'] == 0)
 # Used to run commands in terminal and capture the result in string var.
 #with tempfile.TemporaryFile() as tempf:
 #    proc = subprocess.Popen(['ls','-l'], stdout=tempf)
