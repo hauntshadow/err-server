@@ -40,7 +40,7 @@ class AutoSysServer(BotPlugin):
         :rtype: bool"""
         answer = ""
         while answer not in ["y", "n"]:
-            answer = input("OK to execute command " + msg.body + " [Y/N]? ").lower()
+            answer = input("OK to execute command [Y/N]? ").lower()
         return answer == "y" 
 # Used to run commands in terminal and capture the result in string var.
 #with tempfile.TemporaryFile() as tempf:
