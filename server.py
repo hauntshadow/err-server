@@ -27,9 +27,19 @@ class AutoSysServer(BotPlugin):
     @botcmd
     def retrieve(self, msg, args):
         """Get the log file from errbot"""
+        self.confirm()
         self.send_stream_request(user=msg.frm, fsource=open(args, 'rb'), name='log.txt')
         return "File found!"
         
+    @botcmd
+    def confirm(self):
+        """Ask user to enter Y or N (case-insensitive).
+        :return: True if the answer is Y.
+        :rtype: bool"""
+        answer = ""
+        while answer not in ["y", "n"]:
+            answer = raw_input("OK to push to continue [Y/N]? ").lower()
+        return answer == "y" 
 # Used to run commands in terminal and capture the result in string var.
 #with tempfile.TemporaryFile() as tempf:
 #    proc = subprocess.Popen(['ls','-l'], stdout=tempf)
