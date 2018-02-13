@@ -42,7 +42,6 @@ class AutoSysServer(BotPlugin):
         else:
             return "Permission denied."
 
-    @botcmd(flow_only=True)
     def retrieve2(self, msg, args):
         """Get the log file from errbot"""
         if msg.ctx['permission']:
