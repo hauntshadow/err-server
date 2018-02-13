@@ -29,6 +29,7 @@ class AutoSysServer(BotPlugin):
         """Ask for the log file from errbot"""
         msg.ctx['tries'] = 2
         msg.ctx['permission'] = False
+        msg.ctx['command'] = "retrieve"
         msg.ctx['args'] = args
         self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
         
@@ -39,7 +40,8 @@ class AutoSysServer(BotPlugin):
         if guess == 'y':
             msg.ctx['tries'] = 0
             msg.ctx['permission'] = True
-            return "Permission granted."
+            self.send(msg.frm, "Permission granted.")
+            return getattr(self, msg.ctx['command'] + "2")()
         msg.ctx['permission'] = False
         if guess == 'n' or msg.ctx['tries'] == 0:
             return "Permission denied."
