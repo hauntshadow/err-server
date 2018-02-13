@@ -10,7 +10,7 @@ class ConfFlow(BotFlow):
         flows = []
         commands = ['retrieve']
         for i in range(len(commands)):
-            flows[i] = flow.connect(commands[i], auto_trigger=True)
+            flows.append(flow.connect(commands[i], auto_trigger=True))
             conf.append(flows[i].connect('confirm'))
             conf[i].connect('confirm')
             conf[i].connect(FLOW_END, predicate=lambda ctx: ctx['tries'] == 0)
