@@ -27,7 +27,6 @@ class AutoSysServer(BotPlugin):
     @botcmd
     def retrieve(self, msg, args):
         """Ask for the log file from errbot"""
-        msg.ctx['tries'] = 2
         msg.ctx['permission'] = False
         msg.ctx['command'] = "retrieve"
         msg.ctx['args'] = args
@@ -35,17 +34,13 @@ class AutoSysServer(BotPlugin):
         
     @botmatch(r'^[a-zA-Z]$', flow_only=True)
     def confirm(self, msg, match):
-        msg.ctx['tries'] -= 1
         guess = match.string.lower()
         if guess == 'y':
-            msg.ctx['tries'] = 0
             msg.ctx['permission'] = True
             self.send(msg.frm, "Permission granted.")
             return getattr(self, msg.ctx['command'] + "2")(msg, msg.ctx['args'])
-        msg.ctx['permission'] = False
-        if guess == 'n' or msg.ctx['tries'] == 0:
+        else:
             return "Permission denied."
-        return "Invalid. Please try again."
 
     @botcmd(flow_only=True)
     def retrieve2(self, msg, args):
