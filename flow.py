@@ -8,9 +8,10 @@ class ConfFlow(BotFlow):
         """ This is a flow that can set a guessing game."""
         # setup Flow
         flows = []
+        con = []
         commands = ['retrieve']
         for i in range(len(commands)):
             flows.append(flow.connect(commands[i], auto_trigger=True))
-            conf.append(flows[i].connect('confirm'))
-            conf[i].connect('confirm')
-            conf[i].connect(FLOW_END, predicate=lambda ctx: ctx['tries'] == 0)
+            con.append(flows[i].connect('confirm'))
+            con[i].connect('confirm')
+            con[i].connect(FLOW_END, predicate=lambda ctx: ctx['tries'] == 0)
