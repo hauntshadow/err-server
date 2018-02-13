@@ -25,8 +25,8 @@ class AutoSysServer(BotPlugin):
         return "Currently targeted server: " + self['target_server']
 
     @botcmd
-    def retrieve(self, msg, args):
-        """Get the log file from errbot"""
+    def ask_for(self, msg, args):
+        """Ask for the log file from errbot"""
         msg.ctx['tries'] = 2
         msg.ctx['permission'] = False
         msg.ctx['args'] = args
@@ -45,8 +45,8 @@ class AutoSysServer(BotPlugin):
             return "Permission denied."
         return "Invalid. Please try again."
 
-
-    def retrieve2(self, msg, args):
+    @botcmd(flow_only=True)
+    def retrieve(self, msg, args):
         """Get the log file from errbot"""
         if msg.ctx['permission']:
             self.send(msg.frm, "You did the thing!")
