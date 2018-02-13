@@ -7,7 +7,10 @@ class ConfFlow(BotFlow):
     def conf(self, flow: FlowRoot):
         """ This is a flow that can set a guessing game."""
         # setup Flow
-        dialogue = flow.connect('retrieve', auto_trigger=True)
-        conf = dialogue.connect('confirm')
-        conf.connect('confirm')
-        conf.connect(FLOW_END, predicate=lambda ctx: ctx['tries'] == 0)
+        flows = []
+        commands = ['retrieve']
+        for i in len(commands):
+            flows[i] = flow.connect(commands[i], auto_trigger=True)
+            conf.append(flows[i].connect('confirm'))
+            conf[i].connect('confirm')
+            conf[i].connect(FLOW_END, predicate=lambda ctx: ctx['tries'] == 0)
