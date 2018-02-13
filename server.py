@@ -41,7 +41,7 @@ class AutoSysServer(BotPlugin):
             msg.ctx['tries'] = 0
             msg.ctx['permission'] = True
             self.send(msg.frm, "Permission granted.")
-            return getattr(self, msg.ctx['command'] + "2")(msg, args)
+            return getattr(self, msg.ctx['command'] + "2")(msg, msg.ctx['args'])
         msg.ctx['permission'] = False
         if guess == 'n' or msg.ctx['tries'] == 0:
             return "Permission denied."
