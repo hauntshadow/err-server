@@ -9,10 +9,11 @@ class ConfFlow(BotFlow):
         # setup Flow
         flows = []
         con = []
+        granted = []
         commands = ['retrieve']
         for i in range(len(commands)):
             flows.append(flow.connect(commands[i], auto_trigger=True))
             con.append(flows[i].connect('confirm'))
             con[i].connect('confirm')
-            con[i].connect(commands[i] + '2')
-            con[i].connect(FLOW_END, predicate=lambda ctx: ctx['tries'] == 0)
+            granted.append(con[i].connect(commands[i] + '2'))
+            granted.connect(FLOW_END, predicate=lambda ctx: ctx['tries'] == 0)
