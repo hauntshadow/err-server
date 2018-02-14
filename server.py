@@ -30,7 +30,7 @@ class AutoSysServer(BotPlugin):
 
     @botcmd
     def retrieve(self, msg, args):
-        """Ask for the log file from errbot"""
+        """Set up file transfer"""
         self['permission'] = False
         self['command'] = "retrieve"
         self['args'] = args
@@ -38,10 +38,12 @@ class AutoSysServer(BotPlugin):
         
     @botmatch(r'^[a-zA-Z]$', flow_only=True)
     def confirm(self, msg, match):
+        """Confirmation dialogue"""
         guess = match.string.lower()
         if guess == 'y':
             self['permission'] = True
             self.send(msg.frm, "Permission granted.")
+            #Call the function whose name is the original command with a '2' appended to the end of it
             return getattr(self, self['command'] + "2")(msg, self['args'])
         else:
             return "Permission denied."
@@ -52,7 +54,7 @@ class AutoSysServer(BotPlugin):
             self.send(msg.frm, "You did the thing!")
     
     def server_active2(self, msg, args):
-        """Get the log file from errbot"""
+        """Test function"""
         if self['permission']:
             self.send(msg.frm, "You did the thing again!")
 
