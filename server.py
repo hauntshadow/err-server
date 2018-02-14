@@ -46,6 +46,11 @@ class AutoSysServer(BotPlugin):
         """Get the log file from errbot"""
         if msg.ctx['permission']:
             self.send(msg.frm, "You did the thing!")
+    
+    def server_active2(self, msg, args):
+        """Get the log file from errbot"""
+        if msg.ctx['permission']:
+            self.send(msg.frm, "You did the thing again!")
 
 # Used to run commands in terminal and capture the result in string var.
 #with tempfile.TemporaryFile() as tempf:
