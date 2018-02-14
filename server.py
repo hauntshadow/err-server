@@ -31,10 +31,13 @@ class AutoSysServer(BotPlugin):
         self['permission'] = False
         self['command'] = "retrieve"
         self['args'] = args
+    
+    def confirm_message(self):
+        """Give the user a confirmation message"""
+        self.send(msg.frm, "OK to execute command [Y/N]?")
         
     @botmatch(r'^[a-zA-Z]$', flow_only=True)
     def confirm(self, msg, match):
-        self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
         guess = match.string.lower()
         if guess == 'y':
             self['permission'] = True
