@@ -22,6 +22,7 @@ class AutoSysServer(BotPlugin):
         self['command'] = "server_active"
         self['permission'] = False
         self['args'] = args
+        self['user'] = msg.frm
         #target_server = ""
         #with open('/var/errbot/target_server', 'r') as file:
         #    target_server = str(file.read())
@@ -34,6 +35,7 @@ class AutoSysServer(BotPlugin):
         self['permission'] = False
         self['command'] = "retrieve"
         self['args'] = args
+        self['user'] = msg.frm
         self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
         
     @botmatch(r'^[a-zA-Z]$', flow_only=True)
