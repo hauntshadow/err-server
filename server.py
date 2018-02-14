@@ -20,20 +20,21 @@ class AutoSysServer(BotPlugin):
     def server_active(self, msg, args):
         """Retrieve targeted server"""
         self['command'] = "server_active"
-        self['permission'] = False
-        self['args'] = args
-        self['user'] = msg.frm
+        self.preconfirm(msg, args)
         #target_server = ""
         #with open('/var/errbot/target_server', 'r') as file:
         #    target_server = str(file.read())
-        self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
         return "Currently targeted server: " + self['target_server']
 
     @botcmd
     def retrieve(self, msg, args):
         """Set up file transfer"""
-        self['permission'] = False
+        self.preconfirm(msg, args)
         self['command'] = "retrieve"
+        
+    def preconfirm(self, msg, args):
+        """Set up the environment for confirmation"""
+        self['permission'] = False
         self['args'] = args
         self['user'] = msg.frm
         self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
