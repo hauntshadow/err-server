@@ -1,12 +1,11 @@
 from errbot import botflow, FlowRoot, BotFlow, FLOW_END
 
 class ConfFlow(BotFlow):
-    """ Conversation flows related to polls"""
 
     @botflow
     def conf(self, flow: FlowRoot):
-        """ This is a flow that can set a guessing game."""
-        # setup Flow
+        """ This flow sets up confirmation with the users."""
+        # List of flows, confirm dialogues, and commands that need confirmation
         flows = []
         con = []
         commands = ['retrieve', 'server_active']
