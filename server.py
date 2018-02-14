@@ -1,5 +1,10 @@
 from errbot import BotPlugin, botcmd, botmatch
 import subprocess, tempfile, re, time
+import smtplib
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
+from email.MIMEBase import MIMEBase
+from email import encoders
 
 class AutoSysServer(BotPlugin):
     """AutoSys server plugin for Errbot"""
@@ -54,7 +59,35 @@ class AutoSysServer(BotPlugin):
     def retrieve2(self, msg, args):
         """Get the log file from errbot"""
         if self['permission']:
-            self.send(msg.frm, "You did the thing!")
+            fromaddr = msg.to
+            toaddr = self.user
+     
+            mess = MIMEMultipart()
+     
+            mess['From'] = fromaddr
+            mess['To'] = toaddr
+            mess['Subject'] = "File from Errbot"
+     
+            body = "The file you requested is attached."
+     
+            mess.attach(MIMEText(body, 'plain'))
+     
+            filename = "log.txt"
+            attachment = open(self.args, "rb")
+     
+            part = MIMEBase('application', 'octet-stream')
+            part.set_payload((attachment).read())
+            encoders.encode_base64(part)
+            part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+     
+            mess.attach(part)
+     
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.starttls()
+            server.login(fromaddr, "YOUR PASSWORD")
+            text = mess.as_string()
+            server.sendmail(fromaddr, toaddr, text)
+            server.quit()
     
     def server_active2(self, msg, args):
         """Test function"""
