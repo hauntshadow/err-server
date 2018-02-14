@@ -48,12 +48,12 @@ class AutoSysServer(BotPlugin):
     def confirm(self, msg, match):
         """Confirmation dialogue"""
         guess = match.string.lower()
-        if guess == 'y' and msg.frm != self.user:
+        if guess == 'y' and msg.frm != self['user']:
             self['permission'] = True
             self.send(msg.frm, "Permission granted.")
             #Call the function whose name is the original command with a '2' appended to the end of it
             return getattr(self, self['command'] + "2")(msg, self['args'])
-        elif msg.frm == self.user:
+        elif msg.frm == self['user']:
             return "Someone else must confirm the command. Permission denied."
         else:
             return "Permission denied."
