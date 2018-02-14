@@ -23,6 +23,7 @@ class AutoSysServer(BotPlugin):
         #target_server = ""
         #with open('/var/errbot/target_server', 'r') as file:
         #    target_server = str(file.read())
+        self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
         return "Currently targeted server: " + self['target_server']
 
     @botcmd
@@ -31,10 +32,7 @@ class AutoSysServer(BotPlugin):
         self['permission'] = False
         self['command'] = "retrieve"
         self['args'] = args
-    
-    def confirm_message(self):
-        """Give the user a confirmation message"""
-        self.send(msg.frm, "OK to execute command [Y/N]?")
+        self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
         
     @botmatch(r'^[a-zA-Z]$', flow_only=True)
     def confirm(self, msg, match):
