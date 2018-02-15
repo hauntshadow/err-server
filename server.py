@@ -14,7 +14,7 @@ class AutoSysServer(BotPlugin):
         """Target server for jobs"""
         self['target_server'] = args
         self.target_server = args
-        self.send(msg.frm, str(msg.frm))
+        self.send(msg.frm, str(msg.frm).split('/')[0])
         #with open('/var/errbot/target_server', 'w+') as file:
         #    proc = subprocess.Popen(['echo',args], stdout=file)
         #    proc.wait()
@@ -63,8 +63,8 @@ class AutoSysServer(BotPlugin):
         """Get the log file from errbot"""
         if self['permission']:
             #User and Errbot's emails
-            fromaddr = msg.to
-            toaddr = self.user
+            fromaddr = str(msg.to).split('/')[0]
+            toaddr = str(self.user).split('/')[0]
             #Make the message and it's from, to, and subject lines
             mess = MIMEMultipart()
             mess['From'] = fromaddr
