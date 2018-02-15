@@ -1,9 +1,7 @@
 from errbot import BotPlugin, botcmd, botmatch
 import subprocess, tempfile, re, time
 import smtplib
-from email.mime import multipart
-from email.mime import text
-from email.mime import base
+from email.mime import multipart, text, base
 from email import encoders
 
 class AutoSysServer(BotPlugin):
