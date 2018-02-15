@@ -61,29 +61,27 @@ class AutoSysServer(BotPlugin):
     def retrieve2(self, msg, args):
         """Get the log file from errbot"""
         if self['permission']:
+            #User and Errbot's emails
             fromaddr = msg.to
             toaddr = self.user
-     
+            #Make the message and it's from, to, and subject lines
             mess = MIMEMultipart()
-     
             mess['From'] = fromaddr
             mess['To'] = toaddr
             mess['Subject'] = "File from Errbot"
-     
+            
             body = "The file you requested is attached."
-     
+            #Connect the body to the email
             mess.attach(MIMEText(body, 'plain'))
-     
+            #Get the file, rename it log.txt, and attach it
             filename = "log.txt"
             attachment = open(self.args, "rb")
-     
             part = MIMEBase('application', 'octet-stream')
             part.set_payload((attachment).read())
             encoders.encode_base64(part)
             part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
-     
             mess.attach(part)
-     
+            #Send the email to the user
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
             server.login(fromaddr, "YOUR PASSWORD")
