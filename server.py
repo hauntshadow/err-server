@@ -39,7 +39,7 @@ class AutoSysServer(BotPlugin):
         """Set up the environment for confirmation"""
         self['permission'] = False
         self['args'] = args
-        self['user'] = msg.frm
+        self['user'] = str(msg.frm)
         self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
         
     @botmatch(r'^[a-zA-Z]$', flow_only=True)
