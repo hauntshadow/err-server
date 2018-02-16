@@ -62,8 +62,8 @@ class AutoSysServer(BotPlugin):
         """Get the log file from errbot"""
         if self['permission']:
             #User and Errbot's emails
-            fromaddr = str(msg.to).split('/')[0]
-            toaddr = str(self.user).split('/')[0]
+            fromaddr = "errbot@cgi.com"#str(msg.to).split('/')[0]
+            toaddr = "chr.smith@cgi.com"#str(self.user).split('/')[0]
             #Make the message and it's from, to, and subject lines
             mess = MIMEMultipart()
             mess['From'] = fromaddr
