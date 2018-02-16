@@ -48,7 +48,7 @@ class AutoSysServer(BotPlugin):
         """Confirmation dialogue"""
         ans = match.string.lower()
         self.send(msg.frm, str(msg.frm))
-        self.send(msg.frm, str(self['user']))
+        self.send(msg.frm, user)
         if ans == 'y' and str(msg.frm) != user:
             self['permission'] = True
             self.send(msg.frm, "Permission granted.")
