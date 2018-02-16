@@ -9,6 +9,7 @@ class ConfFlow(BotFlow):
         flows = []
         con = []
         commands = open("concomm.txt").readlines()
+        print(commands)
         for i in range(len(commands)):
             flows.append(flow.connect(commands[i], auto_trigger=True))
             con.append(flows[i].connect('confirm'))
