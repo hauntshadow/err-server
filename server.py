@@ -87,7 +87,7 @@ class AutoSysServer(BotPlugin):
             server.sendmail(fromaddr, toaddr, text)
             server.quit()
     
-    def server_active2(self, msg, args):
+    def acceba2(self, msg, args):
         """Test function"""
         if self['permission']:
             self.send(msg.frm, "You did the thing again!")
