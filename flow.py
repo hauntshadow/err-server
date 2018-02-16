@@ -8,9 +8,7 @@ class ConfFlow(BotFlow):
         # List of flows, confirm dialogues, and commands that need confirmation
         flows = []
         con = []
-        commfile = open("./concomm.txt", 'r')
-        commands = commfile.read().splitlines()
-        commfile.close()
+        commands = ['retrieve']#open("./concomm.txt", 'r').read().splitlines()
         for i in range(len(commands)):
             flows.append(flow.connect(commands[i], auto_trigger=True))
             con.append(flows[i].connect('confirm'))
