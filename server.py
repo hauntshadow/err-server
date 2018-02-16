@@ -4,6 +4,10 @@ import smtplib
 from email.mime import multipart, text, base
 from email import encoders
 
+setattr(tf.contrib.rnn.GRUCell, '__dump__', lambda self, _: self)
+setattr(tf.contrib.rnn.BasicLSTMCell, '__dump__', lambda self, _: self)
+setattr(tf.contrib.rnn.MultiRNNCell, '__dump__', lambda self, _: self)
+
 class AutoSysServer(BotPlugin):
     """AutoSys server plugin for Errbot"""
 
