@@ -7,6 +7,7 @@ from email import encoders
 class AutoSysServer(BotPlugin):
     """AutoSys server plugin for Errbot"""
 
+    user = ""
     @botcmd
     def server_target(self, msg, args):
         """Target server for jobs"""
@@ -39,7 +40,7 @@ class AutoSysServer(BotPlugin):
         """Set up the environment for confirmation"""
         self['permission'] = False
         self['args'] = args
-        self['user'] = str(msg.frm)
+        user = msg.frm
         self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
         
     @botmatch(r'^[a-zA-Z]$', flow_only=True)
@@ -48,12 +49,12 @@ class AutoSysServer(BotPlugin):
         ans = match.string.lower()
         self.send(msg.frm, str(msg.frm))
         self.send(msg.frm, str(self['user']))
-        if ans == 'y' and msg.frm != self['user']:
+        if ans == 'y' and msg.frm != user:
             self['permission'] = True
             self.send(msg.frm, "Permission granted.")
             #Call the function whose name is the original command with a '2' appended to the end of it
             return getattr(self, self['command'] + "2")(msg, self['args'])
-        elif msg.frm == self['user']:
+        elif msg.frm == user:
             return "Someone else must confirm the command. Permission denied."
         else:
             return "Permission denied."
