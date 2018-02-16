@@ -45,8 +45,10 @@ class AutoSysServer(BotPlugin):
     @botmatch(r'^[a-zA-Z]$', flow_only=True)
     def confirm(self, msg, match):
         """Confirmation dialogue"""
-        guess = match.string.lower()
-        if guess == 'y' and msg.frm != self['user']:
+        ans = match.string.lower()
+        self.send(msg.frm, str(msg.frm))
+        self.send(msg.frm, str(self['user']))
+        if ans == 'y' and msg.frm != self['user']:
             self['permission'] = True
             self.send(msg.frm, "Permission granted.")
             #Call the function whose name is the original command with a '2' appended to the end of it
