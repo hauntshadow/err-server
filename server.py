@@ -7,7 +7,7 @@ from email import encoders
 class AutoSysServer(BotPlugin):
     """AutoSys server plugin for Errbot"""
 
-    user = ""
+    global user = ""
     @botcmd
     def server_target(self, msg, args):
         """Target server for jobs"""
