@@ -1,0 +1,10 @@
+
+[Core]
+Name = Email
+Module = email
+
+[Python]
+Version = 3
+
+[Documentation]
+Description = Email plugin
