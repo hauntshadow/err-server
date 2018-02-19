@@ -89,6 +89,7 @@ class AutoSysServer(BotPlugin):
             sent_email = mess.as_string()
             server.sendmail(fromaddr, toaddr, sent_email)
             server.quit()
+            self.send(msg.frm, "Email sent.")
     
     def acceba2(self, msg, args):
         """Test function"""
