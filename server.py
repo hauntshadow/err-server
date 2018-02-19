@@ -66,18 +66,18 @@ class AutoSysServer(BotPlugin):
             fromaddr = "errbot@cgi.com"#str(msg.to).split('/')[0]
             toaddr = "chr.smith@cgi.com"#str(self.user).split('/')[0]
             #Make the message and it's from, to, and subject lines
-            mess = multipart()
+            mess = multipart.multipart()
             mess['From'] = fromaddr
             mess['To'] = toaddr
             mess['Subject'] = "File from Errbot"
             
             body = "The file you requested is attached."
             #Connect the body to the email
-            mess.attach(text(body, 'plain'))
+            mess.attach(text.text(body, 'plain'))
             #Get the file, rename it log.txt, and attach it
             filename = "log.txt"
             attachment = open(self.args, "rb")
-            part = base('application', 'octet-stream')
+            part = base.base('application', 'octet-stream')
             part.set_payload((attachment).read())
             encoders.encode_base64(part)
             part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
@@ -86,8 +86,8 @@ class AutoSysServer(BotPlugin):
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
             server.login(fromaddr, "errbot")
-            text = mess.as_string()
-            server.sendmail(fromaddr, toaddr, text)
+            sent_email = mess.as_string()
+            server.sendmail(fromaddr, toaddr, sent_email)
             server.quit()
     
     def acceba2(self, msg, args):
