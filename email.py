@@ -8,7 +8,7 @@ from flow import ConfFlow
 class Email(BotPlugin):
     """Email plugin for Errbot"""
 
-    flow = ConfFlow(BotFlow)
+    flowmod = ConfFlow(BotFlow)
     
     @botcmd
     def acceba(self, msg, args):
@@ -28,7 +28,7 @@ class Email(BotPlugin):
     def retrieve(self, msg, args):
         """Set up file transfer"""
         self['command'] = "retrieve"
-        if self['command'] in flow.commands:
+        if self['command'] in flowmod.commands:
             self.send(msg.frm, "Yup")
         prompt = self.preconfirm(msg, args)
         return prompt
