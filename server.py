@@ -32,9 +32,9 @@ class AutoSysServer(BotPlugin):
     @botcmd
     def retrieve(self, msg, args):
         """Set up file transfer"""
-        self.preconfirm(msg, args)
+        prompt = self.preconfirm(msg, args)
         self['command'] = "retrieve"
-        return "OK to execute command " + msg.body + " [Y/N]?"
+        return prompt
         
     def preconfirm(self, msg, args):
         """Set up the environment for confirmation"""
