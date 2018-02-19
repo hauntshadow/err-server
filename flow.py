@@ -10,7 +10,7 @@ class ConfFlow(BotFlow):
         con = []
         commands = open("./concomm.txt", 'r').read().splitlines()
         for i in range(len(commands)):
-            commands[i] = commands[i].split(':')[0]
+            commands[i] = commands[i].split(':')[1]
             flows.append(flow.connect(commands[i], auto_trigger=True))
             con.append(flows[i].connect('confirm'))
             con[i].connect('confirm')
