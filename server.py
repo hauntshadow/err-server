@@ -63,7 +63,7 @@ class AutoSysServer(BotPlugin):
         """Get the log file from errbot"""
         if self['permission']:
             #User and Errbot's emails
-            fromaddr = "errbot@cgi.com"#str(msg.to).split('/')[0]
+            fromaddr = "errbotemail@gmail.com"#str(msg.to).split('/')[0]
             toaddr = "chr.smith@cgi.com"#str(self.user).split('/')[0]
             #Make the message and it's from, to, and subject lines
             mess = multipart.MIMEMultipart()
@@ -85,7 +85,7 @@ class AutoSysServer(BotPlugin):
             #Send the email to the user
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
-            server.login(fromaddr, "errbot")
+            server.login(fromaddr, "errbot123")
             sent_email = mess.as_string()
             server.sendmail(fromaddr, toaddr, sent_email)
             server.quit()
