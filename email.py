@@ -1,12 +1,15 @@
-from errbot import BotPlugin, botcmd, botmatch
+from errbot import BotPlugin, botcmd, botmatch, BotFlow
 import subprocess, tempfile, re, time
 import smtplib
 from email.mime import multipart, text, base
 from email import encoders
+import Flow
 
 class Email(BotPlugin):
     """Email plugin for Errbot"""
 
+    flow = ConfFlow(BotFlow)
+    
     @botcmd
     def acceba(self, msg, args):
         """Set up adding admin command"""
@@ -24,8 +27,10 @@ class Email(BotPlugin):
     @botcmd
     def retrieve(self, msg, args):
         """Set up file transfer"""
-        prompt = self.preconfirm(msg, args)
         self['command'] = "retrieve"
+        if self['command'] in flow.commands:
+            self.send(msg.frm, "Yup")
+        prompt = self.preconfirm(msg, args)
         return prompt
         
     def preconfirm(self, msg, args):
