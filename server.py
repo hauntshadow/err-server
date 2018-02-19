@@ -85,7 +85,7 @@ class AutoSysServer(BotPlugin):
             #Send the email to the user
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
-            server.login(fromaddr, "YOUR PASSWORD")
+            server.login(fromaddr, "errbot")
             text = mess.as_string()
             server.sendmail(fromaddr, toaddr, text)
             server.quit()
