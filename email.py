@@ -3,7 +3,7 @@ import subprocess, tempfile, re, time
 import smtplib
 from email.mime import multipart, text, base
 from email import encoders
-import Flow
+from Flow import ConfFlow
 
 class Email(BotPlugin):
     """Email plugin for Errbot"""
