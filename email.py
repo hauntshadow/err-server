@@ -40,8 +40,6 @@ class Email(BotPlugin):
     def confirm(self, msg, match):
         """Confirmation dialogue"""
         ans = match.string.lower()
-        self.send(msg.frm, str(msg.frm))
-        self.send(msg.frm, self['user'])
         if ans == 'y' and str(msg.frm) != self['user']:
             self['permission'] = True
             self.send(msg.frm, "Permission granted.")
