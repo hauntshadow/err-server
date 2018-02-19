@@ -23,7 +23,6 @@ class AutoSysServer(BotPlugin):
     def server_active(self, msg, args):
         """Retrieve targeted server"""
         self['command'] = "server_active"
-        self.preconfirm(msg, args)
         #target_server = ""
         #with open('/var/errbot/target_server', 'r') as file:
         #    target_server = str(file.read())
