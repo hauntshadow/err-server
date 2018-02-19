@@ -41,7 +41,7 @@ class AutoSysServer(BotPlugin):
         self['args'] = args
         user = str(msg.frm)
         self['user'] = user
-        self.send(msg.frm, "OK to execute command " + msg.body + " [Y/N]?")
+        return "OK to execute command " + msg.body + " [Y/N]?"
         
     @botmatch(r'^[a-zA-Z]$', flow_only=True)
     def confirm(self, msg, match):
@@ -89,7 +89,7 @@ class AutoSysServer(BotPlugin):
             sent_email = mess.as_string()
             server.sendmail(fromaddr, toaddr, sent_email)
             server.quit()
-            self.send(msg.frm, "Email sent.")
+            return "Email sent."
     
     def acceba2(self, msg, args):
         """Test function"""
