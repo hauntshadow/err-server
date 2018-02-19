@@ -76,7 +76,7 @@ class AutoSysServer(BotPlugin):
             mess.attach(text.MIMEText(body, 'plain'))
             #Get the file, rename it log.txt, and attach it
             filename = "log.txt"
-            attachment = open(self.args, "rb")
+            attachment = open(self['args'], "rb")
             part = base.MIMEBase('application', 'octet-stream')
             part.set_payload((attachment).read())
             encoders.encode_base64(part)
