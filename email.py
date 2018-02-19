@@ -1,9 +1,9 @@
-from errbot import BotPlugin, botcmd, botmatch, BotFlow
+from errbot import BotPlugin, botcmd, botmatch#, BotFlow
 import subprocess, tempfile, re, time
 import smtplib
 from email.mime import multipart, text, base
 from email import encoders
-from Flow import ConfFlow
+#from Flow import ConfFlow
 
 class Email(BotPlugin):
     """Email plugin for Errbot"""
