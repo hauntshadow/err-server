@@ -29,6 +29,20 @@ class AutoSysServer(BotPlugin):
         return "Currently targeted server: " + self['target_server']
 
     @botcmd
+    def acceba(self, msg, args):
+        """Set up adding admin command"""
+        prompt = self.preconfirm(msg, args)
+        self['command'] = "acceba"
+        return prompt
+    
+    @botcmd
+    def rcceba(self, msg, args):
+        """Set up removing admin command"""
+        prompt = self.preconfirm(msg, args)
+        self['command'] = "rcceba"
+        return prompt
+    
+    @botcmd
     def retrieve(self, msg, args):
         """Set up file transfer"""
         prompt = self.preconfirm(msg, args)
@@ -92,9 +106,25 @@ class AutoSysServer(BotPlugin):
             return "Email sent."
     
     def acceba2(self, msg, args):
-        """Test function"""
+        """Add to list of admin commands"""
         if self['permission']:
-            self.send(msg.frm, "You did the thing again!")
+            commfile = open("/var/lib/err/plugins/hauntshadow/err-server/admcomm.txt", 'r')
+            commands = commfile.read().splitlines()
+            commands.append(self['args'])
+            for comm in commands:
+                commfile.write(":%s:\n" % comm)
+            return "Command added to admin commands."
+        
+    def rcceba2(self, msg, args):
+        """Add to list of admin commands"""
+        if self['permission']:
+            commfile = open("/var/lib/err/plugins/hauntshadow/err-server/admcomm.txt", 'r')
+            commands = commfile.read().splitlines()
+            commands.remove(self['args'])
+            for comm in commands:
+                commfile.write(":%s:\n" % comm)
+            return "Command added to admin commands."
+
 
 # Used to run commands in terminal and capture the result in string var.
 #with tempfile.TemporaryFile() as tempf:
