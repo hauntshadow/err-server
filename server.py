@@ -108,7 +108,7 @@ class AutoSysServer(BotPlugin):
     def acceba2(self, msg, args):
         """Add to list of admin commands"""
         if self['permission']:
-            commfile = open("/var/lib/err/plugins/hauntshadow/err-server/admcomm.txt", 'r')
+            commfile = open("/var/lib/err/plugins/hauntshadow/err-server/concomm.txt", 'w')
             commands = commfile.read().splitlines()
             commands.append(self['args'])
             for comm in commands:
@@ -118,7 +118,7 @@ class AutoSysServer(BotPlugin):
     def rcceba2(self, msg, args):
         """Add to list of admin commands"""
         if self['permission']:
-            commfile = open("/var/lib/err/plugins/hauntshadow/err-server/admcomm.txt", 'r')
+            commfile = open("/var/lib/err/plugins/hauntshadow/err-server/concomm.txt", 'w')
             commands = commfile.read().splitlines()
             commands.remove(self['args'])
             for comm in commands:
