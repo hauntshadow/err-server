@@ -21,7 +21,7 @@ class Email(BotPlugin):
                 return "Command " + args + " added to list of confirm commands."
             else:
                 return "Command not in list of confirm commands."
-            if self['command'] in emailflow.commands and attempts == 1:
+        if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
             return prompt
         return prompt
