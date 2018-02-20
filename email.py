@@ -16,8 +16,8 @@ class Email(BotPlugin):
         """Add admin command"""
         self['command'] = "acceba"
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
-            emailflow.commands.append(self['args'])
-            return "Command " + self['args'] + " added to admin commands."
+            emailflow.commands.append(args)
+            return "Command " + args + " added to admin commands."
         if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
             return prompt
@@ -28,8 +28,8 @@ class Email(BotPlugin):
         """Remove admin command"""
         self['command'] = "rcceba"
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
-            emailflow.commands.remove(self['args'])
-            return "Command " + self['args'] + " removed to admin commands."
+            emailflow.commands.remove(args)
+            return "Command " + args + " removed to admin commands."
         if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
             return prompt
@@ -53,7 +53,7 @@ class Email(BotPlugin):
             mess.attach(text.MIMEText(body, 'plain'))
             #Get the file, rename it log.txt, and attach it
             filename = "log.txt"
-            attachment = open(self['args'], "rb")
+            attachment = open(args, "rb")
             part = base.MIMEBase('application', 'octet-stream')
             part.set_payload((attachment).read())
             encoders.encode_base64(part)
@@ -74,7 +74,6 @@ class Email(BotPlugin):
     def preconfirm(self, msg, args):
         """Set up the environment for confirmation"""
         self['permission'] = False
-        self['args'] = args
         user = str(msg.frm)
         self['user'] = user
         msg.ctx['tries'] = 1
