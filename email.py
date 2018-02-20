@@ -16,9 +16,12 @@ class Email(BotPlugin):
         """Add admin command"""
         self['command'] = "acceba"
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
-            emailflow.commands.append(args)
-            return "Command " + args + " added to admin commands."
-        if self['command'] in emailflow.commands and attempts == 1:
+            if args not in emailflow.commands:
+                emailflow.commands.append(args)
+                return "Command " + args + " added to list of confirm commands."
+            else:
+                return "Command not in list of confirm commands."
+            if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
             return prompt
         return prompt
@@ -28,8 +31,11 @@ class Email(BotPlugin):
         """Remove admin command"""
         self['command'] = "rcceba"
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
-            emailflow.commands.remove(args)
-            return "Command " + args + " removed to admin commands."
+            if args not in emailflow.commands:
+                emailflow.commands.remove(args)
+                return "Command " + args + " removed from list of confirm commands."
+            else:
+                return "Command not in list of confirm commands."
         if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
             return prompt
