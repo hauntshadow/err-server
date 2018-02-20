@@ -30,7 +30,7 @@ class Email(BotPlugin):
         """Set up file transfer"""
         self['command'] = "retrieve"
         if self['command'] in emailflow.commands:
-            self.send(msg.frm, "Yup")
+            return "Yup"
         prompt = self.preconfirm(msg, args)
         return prompt
         
