@@ -13,56 +13,40 @@ class Email(BotPlugin):
     
     @botcmd
     def acceba(self, msg, args):
-        """Set up adding admin command"""
-        prompt = self.preconfirm(msg, args)
+        """Add admin command"""
         self['command'] = "acceba"
+        if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
+            commfile = open("/var/lib/err/plugins/hauntshadow/err-server/concomm.txt", 'w')
+            commands = commfile.read().splitlines()
+            commands.append(self['args'])
+            for comm in commands:
+                commfile.write(":%s:\n" % comm)
+            return "Command added to admin commands."
+        if self['command'] in emailflow.commands and attempts == 1:
+            prompt = self.preconfirm(msg, args)
+            return prompt
         return prompt
     
     @botcmd
     def rcceba(self, msg, args):
-        """Set up removing admin command"""
-        prompt = self.preconfirm(msg, args)
+        """Remove admin command"""
         self['command'] = "rcceba"
-        return prompt
+        if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
+            commfile = open("/var/lib/err/plugins/hauntshadow/err-server/concomm.txt", 'w')
+            commands = commfile.read().splitlines()
+            commands.remove(self['args'])
+            for comm in commands:
+                commfile.write(":%s:\n" % comm)
+            return "Command added to admin commands."
+        if self['command'] in emailflow.commands and attempts == 1:
+            prompt = self.preconfirm(msg, args)
+            return prompt
     
     @botcmd
     def retrieve(self, msg, args, attempts=1):
         """Set up file transfer"""
         self['command'] = "retrieve"
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
-            self.retrieve2(msg, args)
-        if self['command'] in emailflow.commands and attempts == 1:
-            prompt = self.preconfirm(msg, args)
-            return prompt
-        
-    def preconfirm(self, msg, args):
-        """Set up the environment for confirmation"""
-        self['permission'] = False
-        self['args'] = args
-        user = str(msg.frm)
-        self['user'] = user
-        msg.ctx['tries'] = 1
-        return "OK to execute command " + msg.body + " [Y/N]?"
-        
-    @botmatch(r'^[a-zA-Z]$', flow_only=True)
-    def confirm(self, msg, match):
-        """Confirmation dialogue"""
-        ans = match.string.lower()
-        
-        if ans == 'y' and str(msg.frm) != self['user']:
-            self['permission'] = True
-            self.send(msg.frm, "Permission granted.")
-            msg.ctx['tries'] = 0
-            #Call the function whose name is the original command with a '2' appended to the end of it
-            return getattr(self, self['command'])(msg, self['args'], 0)
-        elif str(msg.frm) == self['user']:
-            return "Someone else must confirm the command. Permission denied."
-        else:
-            return "Permission denied."
-
-    def retrieve2(self, msg, args):
-        """Get the log file from errbot"""
-        if self['permission']:
             #User and Errbot's emails
             fromaddr = "errbotemail@gmail.com"#str(msg.to).split('/')[0]
             toaddr = "chr.smith@cgi.com"#str(self.user).split('/')[0]
@@ -91,7 +75,35 @@ class Email(BotPlugin):
             server.sendmail(fromaddr, toaddr, sent_email)
             server.quit()
             return "Email sent."
-    
+        if self['command'] in emailflow.commands and attempts == 1:
+            prompt = self.preconfirm(msg, args)
+            return prompt
+        
+    def preconfirm(self, msg, args):
+        """Set up the environment for confirmation"""
+        self['permission'] = False
+        self['args'] = args
+        user = str(msg.frm)
+        self['user'] = user
+        msg.ctx['tries'] = 1
+        return "OK to execute command " + msg.body + " [Y/N]?"
+        
+    @botmatch(r'^[a-zA-Z]$', flow_only=True)
+    def confirm(self, msg, match):
+        """Confirmation dialogue"""
+        ans = match.string.lower()
+        
+        if ans == 'y' and str(msg.frm) != self['user']:
+            self['permission'] = True
+            self.send(msg.frm, "Permission granted.")
+            msg.ctx['tries'] = 0
+            #Call the function whose name is the original command with a '2' appended to the end of it
+            return getattr(self, self['command'])(msg, self['args'], 0)
+        elif str(msg.frm) == self['user']:
+            return "Someone else must confirm the command. Permission denied."
+        else:
+            return "Permission denied."
+   
     def acceba2(self, msg, args):
         """Add to list of admin commands"""
         if self['permission']:
