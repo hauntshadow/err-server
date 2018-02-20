@@ -45,16 +45,18 @@ class Email(BotPlugin):
     def retrieve(self, msg, args, attempts=1):
         """Set up file transfer"""
         self['command'] = "retrieve"
-        if "-email" in args:
+        if "-email" in args and attempts == 1:
             args = args.split(" ")
             useremail = args[args.index("-email") + 1]
             del args[args.index("-email") + 1]
             del args[args.index("-email")]
             args = " ".join(args)
+        elif attempts == 1:
+            useremail = "chr.smith@cgi.com"
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
             #User and Errbot's emails
-            fromaddr = "errbotemail@gmail.com"#str(msg.to).split('/')[0]
-            toaddr = "chr.smith@cgi.com"#str(self.user).split('/')[0]
+            fromaddr = "errbotemail@gmail.com"
+            toaddr = useremail
             #Make the message and it's from, to, and subject lines
             mess = multipart.MIMEMultipart()
             mess['From'] = fromaddr
