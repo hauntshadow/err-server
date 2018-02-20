@@ -44,7 +44,7 @@ class Email(BotPlugin):
     def retrieve(self, msg, args, attempts=1):
         """Set up file transfer"""
         self['command'] = "retrieve"
-        return msg.body.split(" ")[0]
+        return msg.body.split(" ")[0][1:]
         if "-email" in args and attempts == 1:
             args = args.split(" ")
             useremail = args[args.index("-email") + 1]
