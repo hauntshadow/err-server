@@ -3,13 +3,13 @@ import subprocess, tempfile, re, time
 import smtplib
 from email.mime import multipart, text, base
 from email import encoders
-import emailflow
+from emailflow import ConfFlow
 
 class Email(BotPlugin):
     """Email plugin for Errbot"""
 
     
-    flowmod = emailflow.ConfFlow(BotFlow(BotPlugin))
+    flowmod = ConfFlow()
     
     @botcmd
     def acceba(self, msg, args):
