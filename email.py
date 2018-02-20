@@ -57,12 +57,13 @@ class Email(BotPlugin):
             body = "The file you requested is attached."
             #Connect the body to the email
             mess.attach(text.MIMEText(body, 'plain'))
-            #Get the file, rename it log.txt, and attach it
+            #Get the file and attach it
             attachment = open(args, "rb")
             part = base.MIMEBase('application', 'octet-stream')
+            filename = str(args)
             part.set_payload((attachment).read())
             encoders.encode_base64(part)
-            part.add_header('Content-Disposition', "attachment; filename= %s" % args)
+            part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
             mess.attach(part)
             #Send the email to the user
             server = smtplib.SMTP('smtp.gmail.com', 587)
