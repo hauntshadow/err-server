@@ -12,7 +12,7 @@ class Email(BotPlugin):
     #flowmod = ConfFlow(BotFlow(BotPlugin))
     
     @botcmd
-    def acceba(self, msg, args):
+    def acceba(self, msg, args, attempts=1):
         """Add admin command"""
         self['command'] = "acceba"
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
@@ -27,7 +27,7 @@ class Email(BotPlugin):
         return prompt
     
     @botcmd
-    def rcceba(self, msg, args):
+    def rcceba(self, msg, args, attempts=1):
         """Remove admin command"""
         self['command'] = "rcceba"
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
