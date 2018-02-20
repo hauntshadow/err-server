@@ -108,8 +108,10 @@ class Email(BotPlugin):
             #Call the function whose name is the original command with a '2' appended to the end of it
             return getattr(self, self['command'])(msg, self['args'], 0)
         elif str(msg.frm) == self['user']:
+            msg.ctx['tries'] = 0
             return "Someone else must confirm the command. Permission denied."
         else:
+            msg.ctx['tries'] = 0
             return "Permission denied."
    
 
