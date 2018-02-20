@@ -18,6 +18,7 @@ class Email(BotPlugin):
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
             if args not in emailflow.commands:
                 emailflow.commands.append(args)
+                emailflow.addconf()
                 return "Command " + args + " added to list of confirm commands."
             else:
                 return "Command already in list of confirm commands."
