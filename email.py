@@ -99,7 +99,7 @@ class Email(BotPlugin):
         """Confirmation dialogue"""
         ans = match.string.lower()
         if self['command'] not in emailflow.commands:
-            return getattr(self, self['command'])(msg, self['args'], 0)
+            return
         if ans == 'y' and str(msg.frm) != self['user']:
             self['permission'] = True
             self.send(msg.frm, "Permission granted.")
