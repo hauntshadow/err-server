@@ -81,6 +81,7 @@ class Email(BotPlugin):
         """Set up the environment for confirmation"""
         self['permission'] = False
         user = str(msg.frm)
+        self['args'] = args
         self['user'] = user
         msg.ctx['tries'] = 1
         return "OK to execute command " + msg.body + " [Y/N]?"
@@ -101,26 +102,6 @@ class Email(BotPlugin):
         else:
             return "Permission denied."
    
-    def acceba2(self, msg, args):
-        """Add to list of admin commands"""
-        if self['permission']:
-            commfile = open("/var/lib/err/plugins/hauntshadow/err-server/concomm.txt", 'w')
-            commands = commfile.read().splitlines()
-            commands.append(self['args'])
-            for comm in commands:
-                commfile.write(":%s:\n" % comm)
-            return "Command added to admin commands."
-        
-    def rcceba2(self, msg, args):
-        """Add to list of admin commands"""
-        if self['permission']:
-            commfile = open("/var/lib/err/plugins/hauntshadow/err-server/concomm.txt", 'w')
-            commands = commfile.read().splitlines()
-            commands.remove(self['args'])
-            for comm in commands:
-                commfile.write(":%s:\n" % comm)
-            return "Command added to admin commands."
-
 
 # Used to run commands in terminal and capture the result in string var.
 #with tempfile.TemporaryFile() as tempf:
