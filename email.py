@@ -26,13 +26,14 @@ class Email(BotPlugin):
         return prompt
     
     @botcmd
-    def retrieve(self, msg, args):
+    def retrieve(self, msg, args, attempts=1):
         """Set up file transfer"""
         self['command'] = "retrieve"
-        if self['command'] in emailflow.commands:
-            return "Yup"
-        prompt = self.preconfirm(msg, args)
-        return prompt
+        if (self['commands'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['commands'] not in emailflow.commands:
+            retrieve2(msg, args)
+        if self['command'] in emailflow.commands and attempts == 1:
+            prompt = self.preconfirm(msg, args)
+            return prompt
         
     def preconfirm(self, msg, args):
         """Set up the environment for confirmation"""
@@ -46,11 +47,12 @@ class Email(BotPlugin):
     def confirm(self, msg, match):
         """Confirmation dialogue"""
         ans = match.string.lower()
+        
         if ans == 'y' and str(msg.frm) != self['user']:
             self['permission'] = True
             self.send(msg.frm, "Permission granted.")
             #Call the function whose name is the original command with a '2' appended to the end of it
-            return getattr(self, self['command'] + "2")(msg, self['args'])
+            return getattr(self, self['command'] + '2')(msg, self['args'], 0)
         elif str(msg.frm) == self['user']:
             return "Someone else must confirm the command. Permission denied."
         else:
