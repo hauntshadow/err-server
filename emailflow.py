@@ -13,6 +13,6 @@ class ConfFlow(BotFlow):
         for i in range(len(commands)):
             #commands[i] = commands[i].split(':')[1]
             flows.append(flow.connect(commands[i], auto_trigger=True))
-            con.append(flows[i].connect('confirm', predicate=body.split(" ")[0][1:] not in commands))
-            con[i].connect('confirm', predicate=body.split(" ")[0][1:] not in commands)
+            con.append(flows[i].connect('confirm'))#, predicate=body.split(" ")[0][1:] not in commands))
+            con[i].connect('confirm')#, predicate=body.split(" ")[0][1:] not in commands)
             con[i].connect(FLOW_END, predicate=lambda ctx: ctx['tries'] == 0)
