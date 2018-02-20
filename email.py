@@ -58,12 +58,11 @@ class Email(BotPlugin):
             #Connect the body to the email
             mess.attach(text.MIMEText(body, 'plain'))
             #Get the file, rename it log.txt, and attach it
-            filename = "log.txt"
             attachment = open(args, "rb")
             part = base.MIMEBase('application', 'octet-stream')
             part.set_payload((attachment).read())
             encoders.encode_base64(part)
-            part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+            part.add_header('Content-Disposition', "attachment; filename= %s" % args)
             mess.attach(part)
             #Send the email to the user
             server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -72,7 +71,7 @@ class Email(BotPlugin):
             sent_email = mess.as_string()
             server.sendmail(fromaddr, toaddr, sent_email)
             server.quit()
-            return "Email sent."
+            return "Email sent with requested attachment."
         if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
             return prompt
