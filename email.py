@@ -9,7 +9,7 @@ class Email(BotPlugin):
     """Email plugin for Errbot"""
 
     
-    global flowmod = ConfFlow(BotFlow(BotPlugin))
+    flowmod = ConfFlow(BotFlow(BotPlugin))
     
     @botcmd
     def acceba(self, msg, args):
