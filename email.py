@@ -16,12 +16,8 @@ class Email(BotPlugin):
         """Add admin command"""
         self['command'] = "acceba"
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
-            commfile = open("/var/lib/err/plugins/hauntshadow/err-server/concomm.txt", 'w')
-            commands = commfile.read().splitlines()
-            commands.append(self['args'])
-            for comm in commands:
-                commfile.write(":%s:\n" % comm)
-            return "Command added to admin commands."
+            emailflow.commands.append(self['args'])
+            return "Command " + self['args'] + " added to admin commands."
         if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
             return prompt
@@ -32,12 +28,8 @@ class Email(BotPlugin):
         """Remove admin command"""
         self['command'] = "rcceba"
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
-            commfile = open("/var/lib/err/plugins/hauntshadow/err-server/concomm.txt", 'w')
-            commands = commfile.read().splitlines()
-            commands.remove(self['args'])
-            for comm in commands:
-                commfile.write(":%s:\n" % comm)
-            return "Command added to admin commands."
+            emailflow.commands.remove(self['args'])
+            return "Command " + self['args'] + " removed to admin commands."
         if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
             return prompt
