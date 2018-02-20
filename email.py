@@ -46,7 +46,7 @@ class Email(BotPlugin):
         """Set up file transfer"""
         self['command'] = "retrieve"
         if "-email" in args:
-            return args
+            return args[1]
             useremail = args[args.index("-email") + 1]
             del args[args.index("-email") + 1]
             del args[args.index("-email")]
