@@ -45,6 +45,10 @@ class Email(BotPlugin):
     def retrieve(self, msg, args, attempts=1):
         """Set up file transfer"""
         self['command'] = "retrieve"
+        if "-email" in args:
+            useremail = args[args.index("-email") + 1]
+            del args[args.index("-email") + 1]
+            del args[args.index("-email")]
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
             #User and Errbot's emails
             fromaddr = "errbotemail@gmail.com"#str(msg.to).split('/')[0]
