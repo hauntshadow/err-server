@@ -50,6 +50,7 @@ class Email(BotPlugin):
             useremail = args[args.index("-email") + 1]
             del args[args.index("-email") + 1]
             del args[args.index("-email")]
+            args = " ".join(args)
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
             #User and Errbot's emails
             fromaddr = "errbotemail@gmail.com"#str(msg.to).split('/')[0]
