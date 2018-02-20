@@ -30,7 +30,7 @@ class Email(BotPlugin):
         """Set up file transfer"""
         self['command'] = "retrieve"
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
-            retrieve2(msg, args)
+            self.retrieve2(msg, args)
         if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
             return prompt
