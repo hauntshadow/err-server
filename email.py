@@ -41,6 +41,7 @@ class Email(BotPlugin):
         self['args'] = args
         user = str(msg.frm)
         self['user'] = user
+        msg.ctx['tries'] = 1
         return "OK to execute command " + msg.body + " [Y/N]?"
         
     @botmatch(r'^[a-zA-Z]$', flow_only=True)
@@ -51,6 +52,7 @@ class Email(BotPlugin):
         if ans == 'y' and str(msg.frm) != self['user']:
             self['permission'] = True
             self.send(msg.frm, "Permission granted.")
+            msg.ctx['tries'] = 0
             #Call the function whose name is the original command with a '2' appended to the end of it
             return getattr(self, self['command'] + '2')(msg, self['args'], 0)
         elif str(msg.frm) == self['user']:
