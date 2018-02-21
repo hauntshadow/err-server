@@ -46,16 +46,16 @@ class Email(BotPlugin):
         self['command'] = "retrieve"
         if "-email" in args and attempts == 1:
             args = args.split(" ")
-            useremail = args[args.index("-email") + 1]
+            msg.ctx['useremail'] = args[args.index("-email") + 1]
             del args[args.index("-email") + 1]
             del args[args.index("-email")]
             args = " ".join(args)
         elif attempts == 1:
-            useremail = "chr.smith@cgi.com"
+            msg.ctx['useremail'] = "chr.smith@cgi.com"
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
             #User and Errbot's emails
             fromaddr = "errbotemail@gmail.com"
-            toaddr = useremail
+            toaddr = msg.ctx['useremail']
             #Make the message and it's from, to, and subject lines
             mess = multipart.MIMEMultipart()
             mess['From'] = fromaddr
@@ -91,7 +91,7 @@ class Email(BotPlugin):
         user = str(msg.frm)
         self['args'] = args
         self['user'] = user
-        msg.ctx['commands'] = msg.body.split(" ")[0][1:] not in emailflow.commands
+        msg.ctx['commands'] = self['command'] not in emailflow.commands
         msg.ctx['tries'] = 1
         return "OK to execute command " + msg.body + " [Y/N]?"
         
