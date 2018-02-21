@@ -91,7 +91,7 @@ class Email(BotPlugin):
         user = str(msg.frm)
         self['args'] = args
         self['user'] = user
-        msg.ctx['commands'] = emailflow.commands
+        msg.ctx['commands'] = msg.body.split(" ")[0][1:] not in emailflow.commands
         msg.ctx['tries'] = 1
         return "OK to execute command " + msg.body + " [Y/N]?"
         
