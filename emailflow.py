@@ -7,13 +7,14 @@ class ConfFlow(BotFlow):
     @botflow
     def conf(self, flow: FlowRoot):
         """ This flow sets up confirmation with the users."""
-        # List of flows, confirm dialogues, and commands that need confirmation
+        # Lists of flows and confirm dialogues
         flows = []
         con = []
         for i in range(len(commands)):
-            #commands[i] = commands[i].split(':')[1]
             flows.append(flow.connect(commands[i], auto_trigger=True))
+            #End if command doesn't need confirming
             flows[i].connect(FLOW_END, predicate=lambda ctx: ctx['commands'])
             con.append(flows[i].connect('confirm'))
             con[i].connect('confirm')
+            #End if command confirmation has been attempted
             con[i].connect(FLOW_END, predicate=lambda ctx: ctx['tries'] == 0)
