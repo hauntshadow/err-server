@@ -1,4 +1,4 @@
-from errbot import BotPlugin, botcmd, botmatch, BotFlow
+from errbot import BotPlugin, botcmd, botmatch
 import subprocess, tempfile, re, time
 import smtplib
 from email.mime import multipart, text, base
@@ -7,20 +7,19 @@ import emailflow
 
 class Email(BotPlugin):
     """Email plugin for Errbot"""
-
-    
-    #flowmod = ConfFlow(BotFlow(BotPlugin))
     
     @botcmd
     def acceba(self, msg, args, attempts=1):
         """Add admin command"""
         self['command'] = "acceba"
+        #Add command if approved or doesn't need approval
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
             if args not in emailflow.commands:
                 emailflow.commands.append(args)
                 return "Command " + args + " added to list of confirm commands."
             else:
                 return "Command already in list of confirm commands."
+        #Get confirmation
         if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
             return prompt
@@ -30,12 +29,14 @@ class Email(BotPlugin):
     def rcceba(self, msg, args, attempts=1):
         """Remove admin command"""
         self['command'] = "rcceba"
+        #Remove command if approved or doesn't need approval
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
             if args in emailflow.commands:
                 emailflow.commands.remove(args)
                 return "Command " + args + " removed from list of confirm commands."
             else:
                 return "Command not in list of confirm commands."
+        #Get confirmation
         if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
             return prompt
@@ -44,14 +45,17 @@ class Email(BotPlugin):
     def retrieve(self, msg, args, attempts=1):
         """Set up file transfer"""
         self['command'] = "retrieve"
+        #Set email based on flag the first time in the function
         if "-email" in args and attempts == 1:
             args = args.split(" ")
             msg.ctx['useremail'] = args[args.index("-email") + 1]
             del args[args.index("-email") + 1]
             del args[args.index("-email")]
             args = " ".join(args)
+        #Set email to a default
         elif attempts == 1:
             msg.ctx['useremail'] = "chr.smith@cgi.com"
+        #Send email if approved or doesn't need approval
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
             #User and Errbot's emails
             fromaddr = "errbotemail@gmail.com"
@@ -61,7 +65,6 @@ class Email(BotPlugin):
             mess['From'] = fromaddr
             mess['To'] = toaddr
             mess['Subject'] = "File from Errbot"
-            
             body = "The file you requested is attached."
             #Connect the body to the email
             mess.attach(text.MIMEText(body, 'plain'))
@@ -81,6 +84,7 @@ class Email(BotPlugin):
             server.sendmail(fromaddr, toaddr, sent_email)
             server.quit()
             return "Email sent with requested attachment."
+        #Get confirmation
         if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
             return prompt
@@ -99,17 +103,21 @@ class Email(BotPlugin):
     def confirm(self, msg, match):
         """Confirmation dialogue"""
         ans = match.string.lower()
+        #Confirmation not needed
         if self['command'] not in emailflow.commands:
             return
+        #Confirmed by another user
         if ans == 'y' and str(msg.frm) != self['user']:
             self['permission'] = True
             self.send(msg.frm, "Permission granted.")
             msg.ctx['tries'] = 0
-            #Call the function whose name is the original command with a '2' appended to the end of it
+            #Call the function whose name is the original command
             return getattr(self, self['command'])(msg, self['args'], 0)
+        #User cannot confirm their own command
         elif str(msg.frm) == self['user']:
             msg.ctx['tries'] = 0
             return "Someone else must confirm the command. Permission denied."
+        #Confirmation denied
         else:
             msg.ctx['tries'] = 0
             return "Permission denied."
