@@ -57,7 +57,7 @@ class Email(BotPlugin):
         #Add command if approved or doesn't need approval
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
             data = self.get_plugin('Utils').log_tail(msg, args)
-            with tempfile.NamedTemporaryFile() as temp:
+            with tempfile.NamedTemporaryFile(prefix="log_", suffix=".txt") as temp:
                 temp.write(str.encode(data))
                 return self.retrieve(msg, temp.name, 0)
             
