@@ -23,7 +23,6 @@ class Email(BotPlugin):
         if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
             return prompt
-        return prompt
     
     @botcmd
     def rcceba(self, msg, args, attempts=1):
@@ -40,7 +39,19 @@ class Email(BotPlugin):
         if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
             return prompt
-    
+
+    @botcmd
+    def get_log(self, msg, args, attempts=1):
+        """Add admin command"""
+        self['command'] = "get_log"
+        #Add command if approved or doesn't need approval
+        if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
+            return self.get_plugin('Utils').log_tail(msg, args)
+        #Get confirmation
+        if self['command'] in emailflow.commands and attempts == 1:
+            prompt = self.preconfirm(msg, args)
+            return prompt    
+        
     @botcmd
     def retrieve(self, msg, args, attempts=1):
         """Set up file transfer"""
