@@ -42,9 +42,9 @@ class Email(BotPlugin):
             return prompt
 
     @botcmd
-    def get_log(self, msg, args, attempts=1):
+    def getlog(self, msg, args, attempts=1):
         """Add admin command"""
-        self['command'] = "get_log"
+        self['command'] = "getlog"
         if "-email" in args and attempts == 1:
             args = args.split(" ")
             msg.ctx['useremail'] = args[args.index("-email") + 1]
