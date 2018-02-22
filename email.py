@@ -45,6 +45,15 @@ class Email(BotPlugin):
     def get_log(self, msg, args, attempts=1):
         """Add admin command"""
         self['command'] = "get_log"
+        if "-email" in args and attempts == 1:
+            args = args.split(" ")
+            msg.ctx['useremail'] = args[args.index("-email") + 1]
+            del args[args.index("-email") + 1]
+            del args[args.index("-email")]
+            args = " ".join(args)
+        #Set email to a default
+        elif attempts == 1:
+            msg.ctx['useremail'] = "chr.smith@cgi.com"
         #Add command if approved or doesn't need approval
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
             data = self.get_plugin('Utils').log_tail(msg, args)
