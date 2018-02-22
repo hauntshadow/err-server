@@ -14,7 +14,7 @@ class Email(BotPlugin):
         """Add admin command"""
         self['command'] = "acceba"
         #Add command if approved or doesn't need approval
-        if (self['command'] in emailflow.commands and attempts == 0 and self['permission']) or self['command'] not in emailflow.commands:
+        if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
             if args not in emailflow.commands:
                 emailflow.commands.append(args)
                 return "Command " + args + " added to list of confirm commands."
@@ -30,7 +30,7 @@ class Email(BotPlugin):
         """Remove admin command"""
         self['command'] = "rcceba"
         #Remove command if approved or doesn't need approval
-        if (self['command'] in emailflow.commands and attempts == 0 and self['permission']) or self['command'] not in emailflow.commands:
+        if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
             if args in emailflow.commands:
                 emailflow.commands.remove(args)
                 return "Command " + args + " removed from list of confirm commands."
@@ -46,7 +46,7 @@ class Email(BotPlugin):
         """Add admin command"""
         self['command'] = "get_log"
         #Add command if approved or doesn't need approval
-        if (self['command'] in emailflow.commands and attempts == 0 and self['permission']) or self['command'] not in emailflow.commands:
+        if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
             data = self.get_plugin('Utils').log_tail(msg, args)
             with tempfile.NamedTemporaryFile() as temp:
                 temp.write(str.encode(data))
@@ -61,9 +61,9 @@ class Email(BotPlugin):
     @botcmd
     def retrieve(self, msg, args, attempts=1):
         """Set up file transfer"""
-        self['command'] = "retrieve"
         #Set email based on flag the first time in the function
         if "-email" in args and attempts == 1:
+            self['command'] = "retrieve"
             args = args.split(" ")
             msg.ctx['useremail'] = args[args.index("-email") + 1]
             del args[args.index("-email") + 1]
@@ -71,9 +71,10 @@ class Email(BotPlugin):
             args = " ".join(args)
         #Set email to a default
         elif attempts == 1:
+            self['command'] = "retrieve"
             msg.ctx['useremail'] = "chr.smith@cgi.com"
         #Send email if approved or doesn't need approval
-        if (self['command'] in emailflow.commands and attempts == 0 and self['permission']) or self['command'] not in emailflow.commands:
+        if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
             #User and Errbot's emails
             fromaddr = "errbotemail@gmail.com"
             toaddr = msg.ctx['useremail']
