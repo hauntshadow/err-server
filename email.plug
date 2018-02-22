@@ -2,6 +2,7 @@
 [Core]
 Name = Email
 Module = email
+DependsOn = Utils
 
 [Python]
 Version = 3
