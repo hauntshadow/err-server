@@ -60,7 +60,6 @@ class Email(BotPlugin):
             with tempfile.NamedTemporaryFile(prefix="log_", suffix=".txt") as temp:
                 temp.write(str.encode(data))
                 return self.retrieve(msg, temp.name, 0)
-            
         #Get confirmation
         if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
