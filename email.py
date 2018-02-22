@@ -59,7 +59,6 @@ class Email(BotPlugin):
             data = self.get_plugin('Utils').log_tail(msg, args)
             with tempfile.NamedTemporaryFile() as temp:
                 temp.write(str.encode(data))
-                temp.name = "log.txt"
                 return self.retrieve(msg, temp.name, 0)
             
         #Get confirmation
