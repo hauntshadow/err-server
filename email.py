@@ -4,6 +4,7 @@ import smtplib
 from email.mime import multipart, text, base
 from email import encoders
 import emailflow
+import tempfile
 
 class Email(BotPlugin):
     """Email plugin for Errbot"""
@@ -46,7 +47,12 @@ class Email(BotPlugin):
         self['command'] = "get_log"
         #Add command if approved or doesn't need approval
         if (self['command'] in emailflow.commands and attempts == 0 and self['permission'] == True) or self['command'] not in emailflow.commands:
-            return self.get_plugin('Utils').log_tail(msg, args)
+            data = self.get_plugin('Utils').log_tail(msg, args)
+            with tempfile.NamedTemporaryFile() as temp:
+                temp.write(data)
+                temp.name = "log.txt"
+                return self.retrieve(msg, temp.name, 0)
+            
         #Get confirmation
         if self['command'] in emailflow.commands and attempts == 1:
             prompt = self.preconfirm(msg, args)
